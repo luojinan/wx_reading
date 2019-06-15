@@ -6,7 +6,7 @@ import {
   BookModel
 } from '../mongoose/dbConnect'
 class BookController {
-  constructor () {
+  constructor() {
 
   }
 
@@ -15,8 +15,10 @@ class BookController {
    * @param {*} ctx
    * @param {*} next
    */
-  async getBookByDouban (ctx) {
-    const {isbn} = ctx.params
+  async getBookByDouban(ctx) {
+    const {
+      isbn
+    } = ctx.params
     try {
       if (isbn) {
         const url = `https://api.douban.com/v2/book/isbn/${isbn}?apikey=0df993c66c0c636e29ecbb5344252a4a`
@@ -36,16 +38,45 @@ class BookController {
    * @param {*} ctx
    * @param {*} next
    */
-  async addBook (ctx, next) {
-    const {isbn, openid} = ctx.request.body
+  async addBook(ctx, next) {
+    const {
+      isbn,
+      openid
+    } = ctx.request.body
     try {
       if (isbn) {
         const url = `https://api.douban.com/v2/book/isbn/${isbn}?apikey=0df993c66c0c636e29ecbb5344252a4a`
         const bookInfo = await getJson(url)
-        ctx.body = {
-          code: 0,
-          data: bookInfo
+        // console.log(BookModel);
+        // ctx.body = {
+        //   code: 0,
+        //   data: BookModel
+        // }
+        // 支持await了 ，不需要 (err,data).....
+        const data = await BookModel.create(bookInfo)
+        if (data) {
+          ctx.body = {
+            code: 0,
+            data: data
+          }
         }
+      }
+    } catch (err) {
+      ctx.throw(err)
+    }
+  }
+
+  /**
+   * 获取我添加的所有图书
+   * @param {*} ctx
+   * @param {*} next
+   */
+  async getBook(ctx) {
+    try {
+      let data = await BookModel.find()
+      ctx.body = {
+        code: 0,
+        data
       }
     } catch (err) {
       ctx.throw(err)
@@ -53,7 +84,7 @@ class BookController {
   }
 }
 
-function getJson (url) {
+function getJson(url) {
   return new Promise((resolve, reject) => {
     // node原生的https方法，get到的数据是一段一段的，需要回调end时拼接完所有数据，并转json
     https.get(url, res => {
