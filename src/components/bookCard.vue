@@ -13,7 +13,10 @@
     <div class="book-card_info">
       <div class="book-card_info--row">
         <p>{{bookData.title}}</p>
-        <p>分数</p>
+        <div class="book-card_info--rate">
+          {{bookData.rating?bookData.rating.average:'暂无评分'}}
+          <rate v-if="bookData.rating" :rate="bookData.rating.average"></rate>
+        </div>
       </div>
       <div class="book-card_info--row">
         <p v-for="(item,index) in bookData.author" :key="index">{{item}}</p>
@@ -28,7 +31,11 @@
 </template>
 
 <script>
+import rate from './rate'
 export default {
+  components: {
+    rate
+  },
   props: {
     bookData: {
       type: Object,
@@ -36,7 +43,10 @@ export default {
         title: '默认书名',
         author: ['默认作者'],
         imgages: [],
-        publisher: '默认出版社'
+        publisher: '默认出版社',
+        rating:{
+          average:''
+        }
       }
     }
   },
@@ -69,6 +79,9 @@ export default {
       margin-top: 10rpx;
       display: flex;
       justify-content: space-between;
+      .book-card_info--rate{
+        color: #fadb14;
+      }
     }
   }
 }
