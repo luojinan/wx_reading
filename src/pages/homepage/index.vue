@@ -1,22 +1,25 @@
 <template>
   <div class="homepage">
-    首页
-    <p>shouye</p>
+    <book-card v-for="(item,index) in bookList" :key="index"></book-card>
   </div>
 </template>
 
 <script>
+import bookCard from '@/components/bookCard'
 import { getBook } from '@/api/homepage'
 export default {
-  name: '',
   data () {
     return {
-
+      bookList: ''
     }
+  },
+  components: {
+    bookCard
   },
   methods: {
     async init () {
       const res = await getBook()
+      if (res.code === 200) this.bookList = res.data
     }
   },
   onLoad () {
@@ -28,8 +31,13 @@ export default {
 
 <style scoped lang="scss">
 .homepage {
-  p {
-    color: red;
+  min-height: 100vh;
+  background-color: #f2f2f2;
+  /deep/ .book-card {
+    margin-bottom: 20rpx;
+    &:last-child {
+      margin-bottom: 0;
+    }
   }
 }
 </style>

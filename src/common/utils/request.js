@@ -29,7 +29,7 @@ function requestServer (url, methods, data) {
       header: headerParam
     }).then(res => {
       console.log(url + '接口返回数据', res)
-      if (parseInt(res.code) === 200) {
+      if (parseInt(res.data.code) === 200) {
         resolve(res.data)
       }
       reject(res.data)

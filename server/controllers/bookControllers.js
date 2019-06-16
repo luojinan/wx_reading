@@ -71,7 +71,7 @@ class BookController {
           const data = await BookModel.create(bookInfo)
           if (data) {
             ctx.body = {
-              code: 0,
+              code: 200,
               data: data
             }
           }
@@ -91,7 +91,7 @@ class BookController {
     try {
       let data = await BookModel.find()
       ctx.body = {
-        code: 0,
+        code: 200,
         data
       }
     } catch (err) {
