@@ -1,7 +1,10 @@
-const devStage = 'dev'
-const request = ({url, methods}) => {
+import {devStage,webUrl} from './config'
+import {promisify} from './promisify'
+const wxRequest = promisify(wx.request)
+
+const request = ({url,methods,data}) => {
   if (devStage === 'dev') return requestMock(url)
-  else return requestServer(url)
+  else return requestServer(url, methods, data)
 }
 // mock请求
 function requestMock (url) {
@@ -12,7 +15,26 @@ function requestMock (url) {
   })
 }
 // 请求真实接口
-function requestServer () {
+function requestServer (url, methods, data) {
+  return new Promise((resolve, reject) => {
+    // 请求头的设置
+    let headerParam = {
+      // 写不写都行应该，post的时候要用另一种请求头？做判断？
+      'Content-Type': 'application/json'
+    }
+    wxRequest({
+      url: `${webUrl}${url}`,
+      methods,
+      data,
+      header: headerParam
+    }).then(res => {
+      console.log(url + '接口返回数据', res)
+      if (parseInt(res.code) === 200) {
+        resolve(res.data)
+      }
+      reject(res.data)
+    }).catch(err => console.log(err))
+  })
 
 }
 
