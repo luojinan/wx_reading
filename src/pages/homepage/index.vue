@@ -10,7 +10,11 @@ import { getBook } from '@/api/homepage'
 export default {
   data () {
     return {
-      bookList: ''
+      bookList: '',
+      page:{
+        page: 0,
+        finished: false
+      }
     }
   },
   components: {
@@ -20,7 +24,11 @@ export default {
     async init () {
       // 头部文本前加loading的api（一般不用，load一般写在拉出来的地方醒目一点）
       wx.showNavigationBarLoading()
-      const res = await getBook()
+      let query = {
+        page: this.page.page,
+        size: 5
+      }
+      const res = await getBook(query)
       if (res.code === 200) this.bookList = res.data
       wx.hideNavigationBarLoading()
       // 手动关闭下拉刷新(即让页面弹回上去)，默认回弹的时间比较长

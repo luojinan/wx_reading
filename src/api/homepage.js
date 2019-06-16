@@ -1,9 +1,10 @@
 import request from '@/common/utils/request.js'
 
-export function getBook () {
+export function getBook(query) {
   return request({
     url: 'book/getBook',
-    methods: 'GET'
+    methods: 'GET',
+    data: query
   })
 }
 

@@ -88,8 +88,12 @@ class BookController {
    * @param {*} next
    */
   async getBook(ctx) {
+    const {
+      page,
+      size
+    } = ctx.query
     try {
-      let data = await BookModel.find()
+      let data = await BookModel.find().limit(parseInt(size)).skip(parseInt(page * size))
       ctx.body = {
         code: 200,
         data
