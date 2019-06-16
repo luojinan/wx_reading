@@ -18,9 +18,18 @@ export default {
   },
   methods: {
     async init () {
+      // 头部文本前加loading的api（一般不用，load一般写在拉出来的地方醒目一点）
+      wx.showNavigationBarLoading()
       const res = await getBook()
       if (res.code === 200) this.bookList = res.data
+      wx.hideNavigationBarLoading()
+      // 手动关闭下拉刷新(即让页面弹回上去)，默认回弹的时间比较长
+      wx.stopPullDownRefresh()
     }
+  },
+  // 在json里开启之后，即可使用此生命周期
+  onPullDownRefresh () {
+    this.init()
   },
   onLoad () {
     console.log('启动小程序首页')
