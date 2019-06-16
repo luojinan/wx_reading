@@ -1,17 +1,26 @@
+/**
+ * @desc - 首页图书
+ * @props { bookData: Object }
+ * @functions click -N  点击卡片事件 
+ * @functions handleBtn -N  点击右侧按钮事件 
+ * @example 
+ *    
+ */
+
 <template>
   <div class="book-card">
-    <img src="" alt="">
+    <img :src="bookData.images[0].small || ''" alt>
     <div class="book-card_info">
       <div class="book-card_info--row">
-        <p>图书名</p>
+        <p>{{bookData.title}}</p>
         <p>分数</p>
       </div>
       <div class="book-card_info--row">
-        <p>作者</p>
+        <p v-for="(item,index) in bookData.author" :key="index">{{item}}</p>
         <p>浏览量：</p>
       </div>
       <div class="book-card_info--row">
-        <p>出版商</p>
+        <p>{{bookData.publisher}}</p>
         <p>收藏者：</p>
       </div>
     </div>
@@ -20,8 +29,16 @@
 
 <script>
 export default {
-  computed: {
-    
+  props: {
+    bookData: {
+      type: Object,
+      default: {
+        title: '默认书名',
+        author: ['默认作者'],
+        imgages: [],
+        publisher: '默认出版社'
+      }
+    }
   },
   data () {
     return {
@@ -29,25 +46,26 @@ export default {
     }
   },
   methods: {
-    
+
   }
 }
 </script>
 
 <style scoped lang="scss">
-.book-card{
+.book-card {
   display: flex;
   background-color: #fff;
-  padding: 10rpx 20rpx;
-  img{
+  padding: 20rpx;
+  img {
     width: 240rpx;
     height: 240rpx;
+    border-radius: 10rpx;
     background-color: #eee;
   }
-  .book-card_info{
+  .book-card_info {
     width: 100%;
     margin-left: 40rpx;
-    .book-card_info--row{
+    .book-card_info--row {
       margin-top: 10rpx;
       display: flex;
       justify-content: space-between;

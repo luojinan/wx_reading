@@ -1,6 +1,6 @@
 <template>
   <div class="homepage">
-    <book-card v-for="(item,index) in bookList" :key="index"></book-card>
+    <book-card v-for="(item,index) in bookList" :key="index" :bookData="item"></book-card>
   </div>
 </template>
 
