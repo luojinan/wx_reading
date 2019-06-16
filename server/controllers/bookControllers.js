@@ -52,12 +52,28 @@ class BookController {
         //   code: 0,
         //   data: BookModel
         // }
-        // 支持await了 ，不需要 (err,data).....
-        const data = await BookModel.create(bookInfo)
-        if (data) {
+        // 新增数据之前查重
+        const check = await BookModel.find({
+          'isbn10': bookInfo.isbn10
+        }, {
+          'isbn13': bookInfo.isbn13
+        })
+        if (check.length) {
+          // console.log(check);  // 是个数组。。。要用length才行
           ctx.body = {
-            code: 0,
-            data: data
+            code: -1,
+            msg: '已添加过此图书',
+            data: check
+          }
+        } else {
+          // console.log('数据库中没有此isbn')
+          // 支持await了 ，不需要 (err,data).....
+          const data = await BookModel.create(bookInfo)
+          if (data) {
+            ctx.body = {
+              code: 0,
+              data: data
+            }
           }
         }
       }
