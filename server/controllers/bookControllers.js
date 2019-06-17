@@ -102,6 +102,27 @@ class BookController {
       ctx.throw(err)
     }
   }
+  /**
+   * 获取图书详情，并更新浏览次数
+   * @param {*} ctx
+   * @param {*} next
+   */
+  async getBookById(ctx) {
+    const {
+      bookId
+    } = ctx.params
+    try {
+      // 更新浏览次数
+      const data = await BookModel.findOneAndUpdate({_id: bookId}, { $inc: { viewTimes: 1 } },{ new: true })
+      ctx.body = {
+        code: 200,
+        msg: '浏览次数+1',
+        data
+      }
+    } catch (err) {
+      ctx.throw(err)
+    }
+  }
 }
 
 function getJson(url) {

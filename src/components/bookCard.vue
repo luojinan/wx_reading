@@ -20,7 +20,7 @@
       </div>
       <div class="book-card_info--row">
         <p v-for="(item,index) in bookData.author" :key="index">{{item}}</p>
-        <p>浏览量：</p>
+        <p>浏览量：{{bookData.viewTimes}}</p>
       </div>
       <div class="book-card_info--row">
         <p>{{bookData.publisher}}</p>

@@ -14,6 +14,7 @@ router.get('/', (ctx, next) => {
 
 router.get('/getBookByDouban/:isbn', bookClass.getBookByDouban) // 写入微信用户，创建id
 router.post('/addBook', bookClass.addBook) // 写入微信用户，创建id
-router.get('/getBook', bookClass.getBook) // 写入微信用户，创建id
+router.get('/getBook', bookClass.getBook) // 首页获取图书列表数据
+router.get('/getBookById/:bookId', bookClass.getBookById) // 根据id获取图书详情数据
 
 export default router

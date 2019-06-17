@@ -7,6 +7,10 @@
 import mongoose from 'mongoose'
 
 const BookSchema = mongoose.Schema({
+  viewTimes: {
+    type: Number,
+    default: 1
+  },
   author: Array,
   title: String,
   publisher: String,

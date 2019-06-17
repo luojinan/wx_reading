@@ -1,10 +1,9 @@
 <template>
-  <div class="book-detail">
-    图书详情页{{bookId}}
-  </div>
+  <div class="book-detail">图书详情页{{bookId}}</div>
 </template>
 
 <script>
+import { getBookById } from '@/api/homepage'
 export default {
   components: {
   },
@@ -14,11 +13,15 @@ export default {
     }
   },
   methods: {
-    
+    async init () {
+      const res = await getBookById(this.bookId)
+      console.log(res,'前端获取到的图书详情数据');
+    }
   },
   // onload生命周期返回当前页面不会执行
   onLoad () {
     this.bookId = this.$root.$mp.query.bookId
+    this.init()
   }
 }
 </script>
@@ -26,6 +29,5 @@ export default {
 <style scoped lang="scss">
 @import "@/common/scss/vars.scss";
 .book-detail {
-
 }
 </style>

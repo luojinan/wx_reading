@@ -7,7 +7,13 @@ export function getBook(query) {
     data: query
   })
 }
-
+export function getBookById(bookId) {
+  return request({
+    url: `book/getBookById/${bookId}`,
+    methods: 'GET'
+  })
+}
 export default {
-  getBook
+  getBook,
+  getBookById
 }
