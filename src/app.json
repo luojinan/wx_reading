@@ -1,6 +1,7 @@
 {
   "pages": [
     "pages/homepage/main",
+    "pages/bookDetail/main",
     "pages/mine/main"
   ],
   "window": {

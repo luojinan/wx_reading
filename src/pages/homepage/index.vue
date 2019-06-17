@@ -1,6 +1,6 @@
 <template>
   <div class="homepage">
-    <book-card v-for="(item,index) in bookList" :key="index" :bookData="item"></book-card>
+    <book-card v-for="(item,index) in bookList" :key="index" :bookData="item" @click="toDetail(item._id)"></book-card>
     <p class="finishedText" v-if="page.finished">没有更多数据</p>
   </div>
 </template>
@@ -22,6 +22,9 @@ export default {
     bookCard
   },
   methods: {
+    toDetail (bookId) {
+      wx.navigateTo({ url: `/pages/bookDetail/main?bookId=${bookId}` })
+    },
     async init (more) {
       // 头部文本前加loading的api（一般不用，load一般写在拉出来的地方醒目一点）
       wx.showNavigationBarLoading()
@@ -74,7 +77,7 @@ export default {
       margin-bottom: 0;
     }
   }
-  .finishedText{
+  .finishedText {
     text-align: center;
     padding-bottom: 20rpx;
   }

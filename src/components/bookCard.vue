@@ -8,7 +8,7 @@
  */
 
 <template>
-  <div class="book-card">
+  <div class="book-card" @click="handleClick">
     <img :src="bookData.images[0].small || ''" alt>
     <div class="book-card_info">
       <div class="book-card_info--row">
@@ -44,8 +44,8 @@ export default {
         author: ['默认作者'],
         imgages: [],
         publisher: '默认出版社',
-        rating:{
-          average:''
+        rating: {
+          average: ''
         }
       }
     }
@@ -56,7 +56,9 @@ export default {
     }
   },
   methods: {
-
+    handleClick () {
+      this.$emit('click')
+    }
   }
 }
 </script>
@@ -79,7 +81,7 @@ export default {
       margin-top: 10rpx;
       display: flex;
       justify-content: space-between;
-      .book-card_info--rate{
+      .book-card_info--rate {
         color: #fadb14;
       }
     }
