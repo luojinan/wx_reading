@@ -112,11 +112,29 @@ class BookController {
       bookId
     } = ctx.params
     try {
-      // 更新浏览次数
+      // 更新浏览次数（new参数-返回分心后的数据。否则返回的是更新前的数据）
       const data = await BookModel.findOneAndUpdate({_id: bookId}, { $inc: { viewTimes: 1 } },{ new: true })
       ctx.body = {
         code: 200,
         msg: '浏览次数+1',
+        data
+      }
+    } catch (err) {
+      ctx.throw(err)
+    }
+  }
+  /**
+   * 获取浏览量前9的9本书数据列表，作为首页轮播图
+   * @param {*} ctx
+   * @param {*} next
+   */
+  async getTopBook(ctx) {
+    try {
+      // 对数据进行排序-1倒序--大到小 1正序--小到大
+      const data = await BookModel.find({}).sort({'viewTimes': -1}).limit(9)
+      ctx.body = {
+        code: 200,
+        msg: '首页排名前9',
         data
       }
     } catch (err) {
