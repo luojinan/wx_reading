@@ -35,6 +35,7 @@ div{
   font-size: 28rpx;
   color: #696969;
 }
+/* 全局初始化修改按钮样式 */
 button{
   background-color: #fff;
   outline:none;

@@ -2,15 +2,23 @@
   <div class="mine">
     <!-- 个人信息部分 -->
     <div class="mine-user">
-      <img :src="user.avatarUrl" alt @click="showLogin">
+      <img :src="user.avatarUrl" @click="handleAvatar">
       {{user.nickName || '请授权登录'}}
     </div>
     <!-- 年度进度条部分 -->
     <year-progress></year-progress>
     <!-- 添加图书按钮 -->
-    <button class="mine-btn" @click="addBook">添加图书</button>
+    <button 
+      v-if="user.nickName" 
+      class="mine-btn" 
+      @click="addBook">添加图书</button>
     <!-- 弹窗组件--授权登录 -->
-    <my-dialog :showDialog="showDialog" content="确认授权登录" @confirm="getUserInfo" @cancal="hideLogin"></my-dialog>
+    <my-dialog 
+      :showDialog="showDialog" 
+      content="确认授权登录" 
+      @confirm="getUserInfo" 
+      @cancal="hideLogin"
+    ></my-dialog>
   </div>
 </template>
 
@@ -18,8 +26,6 @@
 import yearProgress from '@/components/yearProgress.vue'  // 年进度组件
 import myDialog from '@/components/myDialog.vue'  // 弹窗组件
 import { mapGetters } from 'vuex'
-import { promisify } from '@/common/utils/promisify'   // promisify工具方法，注意暴露的是对象，要解构赋值
-const scanCode = promisify(wx.scanCode)              // promisify后的微信api复制给一个值(方法)
 export default {
   components: {
     myDialog,
@@ -34,12 +40,12 @@ export default {
     ...mapGetters(['user'])
   },
   methods: {
-    addBook () {
-      console.log('点击添加图书');
-      // showModal({content:'确认删除？'}).then(res=>{})
-      scanCode().then(res => console.log(res))
+    async addBook () {
+      console.log('点击添加图书')
+      const res = await this.$promisify(wx.scanCode)
+      console.log(res)
     },
-    showLogin () {
+    handleAvatar () {
       if (!this.user.nickName) this.showDialog = true
     },
     hideLogin () {

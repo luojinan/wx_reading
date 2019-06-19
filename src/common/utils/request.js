@@ -1,6 +1,6 @@
 import {devStage,webUrl} from './config'
-import {promisify} from './promisify'
-const wxRequest = promisify(wx.request)
+import {promisifyUtil} from './promisify'
+const wxRequest = promisifyUtil(wx.request)
 
 const request = ({url,methods,data}) => {
   if (devStage === 'dev') return requestMock(url)

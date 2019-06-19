@@ -7,14 +7,26 @@
  *      showModal({content:'确认删除？'}).then(res=>{})
  */
 
-export function promisify (api) {
+export function promisify(api, options, ...params) {
+  return new Promise((resolve, reject) => {
+    api(Object.assign({}, options, {
+      success: resolve,
+      fail: reject
+    }), ...params)
+  })
+}
+export function promisifyUtil(api) {
   return (options, ...params) => {
     return new Promise((resolve, reject) => {
-      api(Object.assign({}, options, { success: resolve, fail: reject }), ...params)
+      api(Object.assign({}, options, {
+        success: resolve,
+        fail: reject
+      }), ...params)
     })
   }
 }
 // 暴露的是一个对象
 export default {
-  promisify
+  promisify,
+  promisifyUtil
 }
