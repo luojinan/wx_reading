@@ -13,7 +13,14 @@ export function getBookById(bookId) {
     methods: 'GET'
   })
 }
+export function getTopBook() {
+  return request({
+    url: `book/getTopBook/`,
+    methods: 'GET'
+  })
+}
 export default {
   getBook,
-  getBookById
+  getBookById,
+  getTopBook  //获取首页轮播图--浏览量前9的图书
 }
