@@ -9,7 +9,7 @@
 
 <template>
   <div class="book-card" @click="handleClick">
-    <img :src="bookData.images[0].small || ''" alt>
+    <img @click.stop="preview" :src="bookData.images[0].small || ''" alt>
     <div class="book-card_info">
       <div class="book-card_info--row">
         <p>{{bookData.title}}</p>
@@ -58,6 +58,14 @@ export default {
   methods: {
     handleClick () {
       this.$emit('click')
+    },
+    preview () {
+      // 默认设置相册数组方式，故要设置当前图片与所有图片
+      // 若只有1张，则所有图片也要设成数组
+      wx.previewImage({
+        current: this.bookData.images[0].small, // 当前显示图片的http链接
+        urls: [this.bookData.images[0].small] // 需要预览的图片http链接列表
+      })
     }
   }
 }
