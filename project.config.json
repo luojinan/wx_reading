@@ -33,12 +33,20 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 0,
+			"current": 1,
 			"list": [
 				{
 					"id": -1,
 					"name": "我的",
 					"pathName": "pages/mine/main",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": 1,
+					"name": "图书详情",
+					"pathName": "pages/bookDetail/main",
+					"query": "bookId=5d07af7ea36ed13070bd869d",
 					"scene": null
 				}
 			]

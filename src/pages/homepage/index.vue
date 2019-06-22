@@ -48,7 +48,6 @@ export default {
   },
   computed: {
     tops () {
-      console.log([this.topBookList.slice(0, 3), this.topBookList.slice(3, 6), this.topBookList.slice(6)]);
       return [this.topBookList.slice(0, 3), this.topBookList.slice(3, 6), this.topBookList.slice(6)]
     }
   },
