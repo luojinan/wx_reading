@@ -8,9 +8,9 @@
  *   <my-dialog :showDialog="showDialog" @confirm="getUserInfo" @cancal="hideLogin"></my-dialog>
  */
 <template>
-  <div class="mydialog" v-show="showIt">
+  <div class="mydialog" @click.stop="function(){}" v-show="showIt">
     <!-- 遮罩 -->
-    <div class="mask"></div>
+    <div class="mask" @click="cancal"></div>
     <!-- 弹窗内容 -->
     <div class="mydialog-box">
       <h1>{{content}}</h1>

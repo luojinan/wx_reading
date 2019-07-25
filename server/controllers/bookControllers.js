@@ -40,13 +40,13 @@ class BookController {
    */
   async addBook(ctx, next) {
     const {
-      isbn,
-      openid
+      isbn
     } = ctx.request.body
+    console.log('全局变量用户id' ,ctx.state.userId);
     try {
       if (isbn) {
         const url = `https://api.douban.com/v2/book/isbn/${isbn}?apikey=0df993c66c0c636e29ecbb5344252a4a`
-        const bookInfo = await getJson(url)
+        let bookInfo = await getJson(url)
         // console.log(BookModel);
         // ctx.body = {
         //   code: 0,
@@ -68,6 +68,7 @@ class BookController {
         } else {
           // console.log('数据库中没有此isbn')
           // 支持await了 ，不需要 (err,data).....
+          bookInfo.userId = ctx.state.userId
           const data = await BookModel.create(bookInfo)
           if (data) {
             ctx.body = {

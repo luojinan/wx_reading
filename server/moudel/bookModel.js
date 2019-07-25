@@ -7,6 +7,7 @@
 import mongoose from 'mongoose'
 
 const BookSchema = mongoose.Schema({
+  userId: String,
   viewTimes: {
     type: Number,
     default: 1

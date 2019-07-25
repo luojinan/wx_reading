@@ -22,7 +22,7 @@ export default {
       thisYear.setDate(1)
 
       let offset = new Date().getTime() - thisYear.getTime()
-      return parseInt(offset / 1000 / 60 / 60 / 24) + 1
+      return parseInt(offset / 1000 / 60 / 60 / 24)
     },
     // 过去天数百分比
     percent () {
@@ -42,7 +42,7 @@ export default {
       if (year % 400 === 0) {
         return true
       } else if (year % 4 === 0 && year % 100 !== 0) {
-        return ture
+        return true
       } else {
         return false
       }

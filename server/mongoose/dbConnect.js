@@ -1,6 +1,7 @@
 import mongoose from 'mongoose'
 import TestModel from '../moudel/TestModel'
 import BookModel from '../moudel/BookModel'
+import UserModel from '../moudel/UserModel'
 
 mongoose.connect('mongodb://localhost/test', { useNewUrlParser: true })
 
@@ -12,5 +13,6 @@ db.once('open', function () {
 
 module.exports = {
   TestModel,
-  BookModel
+  BookModel,
+  UserModel
 }

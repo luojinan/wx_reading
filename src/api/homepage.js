@@ -3,20 +3,20 @@ import request from '@/common/utils/request.js'
 export function getBook(query) {
   return request({
     url: 'book/getBook',
-    methods: 'GET',
+    method: 'GET',
     data: query
   })
 }
 export function getBookById(bookId) {
   return request({
     url: `book/getBookById/${bookId}`,
-    methods: 'GET'
+    method: 'GET'
   })
 }
 export function getTopBook() {
   return request({
     url: `book/getTopBook/`,
-    methods: 'GET'
+    method: 'GET'
   })
 }
 export default {

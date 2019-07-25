@@ -4,7 +4,6 @@ const user = {
   state: {
     user: {}
   },
-
   mutations: {
     SET_USER: (state, user) => {
       state.user = user
@@ -17,7 +16,5 @@ const user = {
       state.user.avatarFull = avatar
     }
   }
-
 }
-
 export default user

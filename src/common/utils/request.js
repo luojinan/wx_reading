@@ -1,10 +1,10 @@
-import {devStage,webUrl} from './config'
-import {promisifyUtil} from './promisify'
-const wxRequest = promisifyUtil(wx.request)
+import {devStage, webUrl} from './config'
+import {promisify} from './promisify'
+import { getToken } from './auth'
 
-const request = ({url,methods,data}) => {
+const request = ({url,method,data}) => {
   if (devStage === 'dev') return requestMock(url)
-  else return requestServer(url, methods, data)
+  else return requestServer(url, method, data)
 }
 // mock请求
 function requestMock (url) {
@@ -15,16 +15,18 @@ function requestMock (url) {
   })
 }
 // 请求真实接口
-function requestServer (url, methods, data) {
+function requestServer (url, method, data) {
   return new Promise((resolve, reject) => {
     // 请求头的设置
     let headerParam = {
       // 写不写都行应该，post的时候要用另一种请求头？做判断？
-      'Content-Type': 'application/json'
+      // 'Content-Type': 'application/json'
+      'Content-Type': 'application/x-www-form-urlencoded',
+      'Authorization': getToken()
     }
-    wxRequest({
+    promisify(wx.request, {
       url: `${webUrl}${url}`,
-      methods,
+      method,
       data,
       header: headerParam
     }).then(res => {
@@ -35,7 +37,10 @@ function requestServer (url, methods, data) {
       reject(res.data)
     }).catch(err => console.log(err))
   })
-
 }
 
 export default request
+
+
+
+

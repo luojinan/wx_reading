@@ -11,7 +11,8 @@ router.get('/', (ctx, next) => {
   }
   ctx.response.body = result // 直接把响应写进页面
 })
-
-// router.post('/writeUser', userClass.writeUser) // 写入微信用户，创建id
+router.post('/saveUser', userClass.saveUser) // 写入微信用户，创建id
+router.delete('/delUser', userClass.delUser) // 删除用户（测试用）
+router.get('/getUsers', userClass.getUsers) // 获取所有用户（测试用）
 
 export default router
