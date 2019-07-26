@@ -68,7 +68,7 @@ export default {
       }
       const res = await getBook(query)
       // 当获取的页面数据小于一页的size并且不是因为数据少而没有分页的时候，分页结束
-      if (res.data.length <= query.size && this.page.page > 0) this.page.finished = true
+      if (res.data.length < query.size && this.page.page > 0) this.page.finished = true
       // 当是触底加载的时候传入参数more，此时数据拼接。没传入则代表直接赋值
       if (more) this.bookList = [...this.bookList, ...res.data]
       else {

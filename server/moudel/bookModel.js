@@ -7,7 +7,10 @@
 import mongoose from 'mongoose'
 
 const BookSchema = mongoose.Schema({
-  userId: String,
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'user'
+  },
   viewTimes: {
     type: Number,
     default: 1

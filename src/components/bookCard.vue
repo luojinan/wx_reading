@@ -24,7 +24,7 @@
       </div>
       <div class="book-card_info--row">
         <p>{{bookData.publisher}}</p>
-        <p>收藏者：</p>
+        <p>收藏者：{{bookData.user&&bookData.user.userName}}</p>
       </div>
     </div>
   </div>

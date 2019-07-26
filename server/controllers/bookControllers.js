@@ -68,7 +68,7 @@ class BookController {
         } else {
           // console.log('数据库中没有此isbn')
           // 支持await了 ，不需要 (err,data).....
-          bookInfo.userId = ctx.state.userId
+          bookInfo.user = ctx.state.userId
           const data = await BookModel.create(bookInfo)
           if (data) {
             ctx.body = {
@@ -94,7 +94,7 @@ class BookController {
       size
     } = ctx.query
     try {
-      let data = await BookModel.find().limit(parseInt(size)).skip(parseInt(page * size))
+      let data = await BookModel.find().limit(parseInt(size)).skip(parseInt(page * size)).populate({ path: 'user' })
       ctx.body = {
         code: 200,
         data
