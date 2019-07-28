@@ -15,6 +15,7 @@
             v-for="(item,index) in top"
             :key="index"
             :src="item.images[0].small"
+            @click="toDetail(item._id)"
           >
         </swiper-item>
       </div>

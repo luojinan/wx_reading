@@ -69,11 +69,12 @@ class BookController {
           // console.log('数据库中没有此isbn')
           // 支持await了 ，不需要 (err,data).....
           bookInfo.user = ctx.state.userId
+          bookInfo.summary = bookInfo.summary.split('\n')
           const data = await BookModel.create(bookInfo)
           if (data) {
             ctx.body = {
               code: 200,
-              data: data
+              data
             }
           }
         }
@@ -114,7 +115,7 @@ class BookController {
     } = ctx.params
     try {
       // 更新浏览次数（new参数-返回分心后的数据。否则返回的是更新前的数据）
-      const data = await BookModel.findOneAndUpdate({_id: bookId}, { $inc: { viewTimes: 1 } },{ new: true })
+      const data = await BookModel.findOneAndUpdate({_id: bookId}, { $inc: { viewTimes: 1 } },{ new: true }).populate({ path: 'user' })
       ctx.body = {
         code: 200,
         msg: '浏览次数+1',

@@ -18,8 +18,11 @@ const BookSchema = mongoose.Schema({
   author: Array,
   title: String,
   publisher: String,
+  price: Number,
   images: Array,
   rating: Object,
+  tags: Array,
+  summary: Array,
   isbn13: String,
   isbn10: String
 })
