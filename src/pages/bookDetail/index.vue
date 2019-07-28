@@ -54,6 +54,9 @@
         <span>{{phoneSys}}</span>
       </div>
     </div>
+    <!-- 底部提交评论大按钮 -->
+    <button class="book-detail-detail_btn" @click="addComment">评论</button>
+
   </div>
 </template>
 
@@ -70,10 +73,20 @@ export default {
       bookId: '',
       bookInfo: '',
       location: '',
-      phoneSys: ''
+      phoneSys: '',
+      comment: ''
     }
   },
   methods: {
+    addComment () {
+      const params = {
+        bookId: this.bookId,
+        comment: this.comment,
+        phoneSys: this.phoneSys,
+        location: this.location
+      }
+      console.log('上送点评接口参数', params)
+    },
     getPhoneSys (e) {
       // 判断是否选中
       if (e.target.value) {
@@ -224,6 +237,11 @@ export default {
         color: #ea5a49;
       }
     }
+  }
+  .book-detail-detail_btn{
+    background-color: #ea5a49;
+    color: #fff;
+    margin-top: 50rpx;
   }
 }
 </style>
