@@ -40,8 +40,10 @@
     <div class="book-detail_summary">
       <p v-for="(sum,index) in bookInfo.summary" :key="index">{{sum}}</p>
     </div>
+    <!-- 评论列表部分 -->
+    <comment-card :commentList="commentList"></comment-card>
     <!-- 输入评论部分 -->
-    <div class="book-detail_comment">
+    <div v-if="showAddComment" class="book-detail_comment">
       <textarea v-model="comment" :maxlength="100" placeholder="请输入图书短评"></textarea>
       <div class="location-switch">
         地理位置：
@@ -53,19 +55,22 @@
         <switch color="#ea5a49" :checked="phoneSys" @change="getPhoneSys"></switch>
         <span>{{phoneSys}}</span>
       </div>
+      <!-- 底部提交评论大按钮 -->
+      <button class="book-detail_btn" @click="submit">评论</button>
     </div>
-    <!-- 底部提交评论大按钮 -->
-    <button class="book-detail-detail_btn" @click="submit">评论</button>
-
+    <p v-else class="book-detail_footed">未登录或者已评论过啦</p>
   </div>
 </template>
 
 <script>
+import commentCard from '@/components/commentCard'
 import rate from '@/components/rate'
 import { getBookById, addComment, getCommentList } from '@/api/homepage'
 import QQMapWX from '../../common/utils/qqmap-wx-jssdk.min.js'
+import { mapGetters } from 'vuex'
 export default {
   components: {
+    commentCard,
     rate
   },
   data () {
@@ -74,8 +79,23 @@ export default {
       bookInfo: '',
       location: '',
       phoneSys: '',
-      comment: ''
+      comment: '',
+      commentList: []
     }
+  },
+  computed: {
+    showAddComment () {
+      // 用vuex判断是否登录
+      console.log(this.user,'vuex中的用户信息');
+      if (!this.user.userName) return false
+      // 判断评论列表里是否有当前账号的id
+      let myComment = this.commentList.filter(item => {
+        item.user._id == this.user._id
+      })
+      if (myComment.length) return false
+      return false
+    },
+    ...mapGetters(['user'])
   },
   methods: {
     async submit () {
@@ -90,7 +110,9 @@ export default {
     },
     async getCommentListById () {
       const res = await getCommentList(this.bookId)
-      console.log('当前图书的评论列表',res)
+      console.log('当前图书的评论列表', res)
+      this.commentList = res.data
+      console.log(this.commentList);
     },
     getPhoneSys (e) {
       // 判断是否选中
@@ -121,7 +143,7 @@ export default {
             console.log('腾讯sdk接口的地址', res)
             this.location = res.result.ad_info.city
           },
-          fail: (err) => { console.log(err)}
+          fail: (err) => { console.log(err) }
         })
       }
     },
@@ -138,6 +160,10 @@ export default {
   },
   // onload生命周期返回当前页面不会执行
   onLoad () {
+    if (!this.user.nickName) {
+      let userStorage = wx.getStorageSync('userInfo')
+      this.$store.commit('SET_USER', userStorage)
+    }
     this.bookId = this.$root.$mp.query.bookId
     this.init()
   }
@@ -243,11 +269,16 @@ export default {
         color: #ea5a49;
       }
     }
+    .book-detail_btn {
+      background-color: #ea5a49;
+      color: #fff;
+      margin-top: 50rpx;
+    }
   }
-  .book-detail-detail_btn{
-    background-color: #ea5a49;
-    color: #fff;
-    margin-top: 50rpx;
+  .book-detail_footed {
+    text-align: center;
+    background-color: #f2f2f2;
+    padding: 10rpx;
   }
 }
 </style>

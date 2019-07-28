@@ -46,7 +46,7 @@ class   CommentController {
       bookId
     } = ctx.params
     try {
-      const data = await CommentModel.find({bookid: bookId})
+      const data = await CommentModel.find({bookid: bookId}).populate({ path: 'user' })
       ctx.body = {
         code: 200,
         msg: '',
