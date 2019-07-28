@@ -1,17 +1,21 @@
 <template>
   <div class="book-detail">
     <div class="book-detail_header--bg">
-      <img :src="bookInfo.images&&bookInfo.images[0].small" mode="aspectFill">
+      <img :src="bookInfo.images&&bookInfo.images[0].small" mode="aspectFill" />
     </div>
     <div class="book-detail_header">
-      <img :src="bookInfo.images&&bookInfo.images[0].small" mode="aspectFill" class="book-detail_header--book">
+      <img
+        :src="bookInfo.images&&bookInfo.images[0].small"
+        mode="aspectFill"
+        class="book-detail_header--book"
+      />
       <h1>{{bookInfo.title}}</h1>
       <p>{{bookInfo.author}}</p>
     </div>
     <!-- 页面内容-用户信息 -->
     <div class="book-detail_user--wrapper">
       <div class="book-detail_user">
-        <img :src="bookInfo.user&&bookInfo.user.avatar" alt="">
+        <img :src="bookInfo.user&&bookInfo.user.avatar" alt />
         <p>{{bookInfo.user&&bookInfo.user.userName}}</p>
       </div>
       <div class="book-detail_rate">
@@ -26,7 +30,11 @@
     </div>
     <!-- 页面内容-图书标签 -->
     <div class="book-detail_tags">
-      <div v-for="(tag,index) in bookInfo.tags" :key="index" class="book-detail_badge">{{tag.name}} {{tag.count}}</div>
+      <div
+        v-for="(tag,index) in bookInfo.tags"
+        :key="index"
+        class="book-detail_badge"
+      >{{tag.name}} {{tag.count}}</div>
     </div>
     <!-- 页面内容-图书简介 -->
     <div class="book-detail_summary">
@@ -34,15 +42,15 @@
     </div>
     <!-- 输入评论部分 -->
     <div class="book-detail_comment">
-      <textarea v-model="comment" :maxlength="100" placeholder='请输入图书短评'></textarea>
+      <textarea v-model="comment" :maxlength="100" placeholder="请输入图书短评"></textarea>
       <div class="location-switch">
         地理位置：
-        <switch color='#ea5a49' :checked='location' @change="getLocation" ></switch>
+        <switch color="#ea5a49" :checked="location" @change="getLocation"></switch>
         <span>{{location}}</span>
       </div>
       <div class="phone-switch">
         手机型号：
-        <switch color='#ea5a49' :checked='phoneSys' @change="getPhoneSys" ></switch>
+        <switch color="#ea5a49" :checked="phoneSys" @change="getPhoneSys"></switch>
         <span>{{phoneSys}}</span>
       </div>
     </div>
@@ -52,6 +60,7 @@
 <script>
 import rate from '@/components/rate'
 import { getBookById } from '@/api/homepage'
+import QQMapWX from '../../common/utils/qqmap-wx-jssdk.min.js'
 export default {
   components: {
     rate
@@ -73,8 +82,30 @@ export default {
         this.phoneSys = phoneInfo.model
       } else this.phoneSys = ''
     },
-    getLocation () {
-
+    async getLocation (e) {
+      if (e.target.value) {
+        wx.showLoading({
+          title: '获取地理位置中',
+          mask: true
+        })
+        const res = await this.$promisify(wx.getLocation)
+        wx.hideLoading()
+        console.log('地理位置', res)
+        var demo = new QQMapWX({
+          key: 'U3VBZ-WXEKS-CXKOT-6FHUD-3NYNO-AHBUT'
+        })
+        demo.reverseGeocoder({
+          location: {
+            latitude: res.latitude,
+            longitude: res.longitude
+          },
+          success: (res) => {
+            console.log('腾讯sdk接口的地址', res)
+            this.location = res.result.ad_info.city
+          },
+          fail: (err) => { console.log(err)}
+        })
+      }
     },
     async init () {
       const res = await getBookById(this.bookId)
@@ -124,37 +155,37 @@ export default {
       height: 240rpx;
       margin-bottom: 20rpx;
     }
-    h1{
+    h1 {
       margin-bottom: 20rpx;
       font-size: 36rpx;
     }
   }
-  .book-detail_user--wrapper{
+  .book-detail_user--wrapper {
     display: flex;
     justify-content: space-between;
     padding: 20rpx 30rpx 10rpx;
-    .book-detail_user{
+    .book-detail_user {
       display: flex;
       align-items: center;
-      img{
+      img {
         width: 50rpx;
         height: 50rpx;
         border-radius: 50%;
         margin-right: 10rpx;
       }
     }
-    .book-detail_rate{
+    .book-detail_rate {
       color: #fadb14;
     }
   }
-  .book-detail_produce{
+  .book-detail_produce {
     display: flex;
     justify-content: space-between;
     padding: 10rpx 30rpx;
   }
-  .book-detail_tags{
+  .book-detail_tags {
     padding: 10rpx 20rpx;
-    .book-detail_badge{
+    .book-detail_badge {
       display: inline-block;
       margin: 10rpx;
       padding: 10rpx;
@@ -163,30 +194,33 @@ export default {
       color: #ea5a49;
     }
   }
-  .book-detail_summary{
+  .book-detail_summary {
     padding: 10rpx 10rpx;
-    p{
+    p {
       text-indent: 2em;
       line-height: 50rpx;
     }
   }
 
-  .book-detail_comment{
+  .book-detail_comment {
     margin-top: 30rpx;
-    textarea{
+    textarea {
       padding: 10rpx;
       height: 200rpx;
       width: 730rpx;
       background-color: #eee;
     }
-    .location-switch{
+    .location-switch {
       margin: 10rpx 0 0 10rpx;
       padding: 10rpx 20rpx;
+      span {
+        color: #ea5a49;
+      }
     }
-    .phone-switch{
+    .phone-switch {
       margin: 10rpx 0 0 10rpx;
       padding: 10rpx 20rpx;
-      span{
+      span {
         color: #ea5a49;
       }
     }
