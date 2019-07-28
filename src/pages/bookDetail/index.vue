@@ -55,14 +55,14 @@
       </div>
     </div>
     <!-- 底部提交评论大按钮 -->
-    <button class="book-detail-detail_btn" @click="addComment">评论</button>
+    <button class="book-detail-detail_btn" @click="submit">评论</button>
 
   </div>
 </template>
 
 <script>
 import rate from '@/components/rate'
-import { getBookById } from '@/api/homepage'
+import { getBookById, addComment, getCommentList } from '@/api/homepage'
 import QQMapWX from '../../common/utils/qqmap-wx-jssdk.min.js'
 export default {
   components: {
@@ -78,14 +78,19 @@ export default {
     }
   },
   methods: {
-    addComment () {
+    async submit () {
       const params = {
-        bookId: this.bookId,
+        bookid: this.bookId,
         comment: this.comment,
         phoneSys: this.phoneSys,
         location: this.location
       }
       console.log('上送点评接口参数', params)
+      const res = await addComment(params)
+    },
+    async getCommentListById () {
+      const res = await getCommentList(this.bookId)
+      console.log('当前图书的评论列表',res)
     },
     getPhoneSys (e) {
       // 判断是否选中
@@ -128,6 +133,7 @@ export default {
       wx.setNavigationBarTitle({
         title: this.bookInfo.title
       })
+      this.getCommentListById()
     }
   },
   // onload生命周期返回当前页面不会执行

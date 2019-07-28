@@ -6,6 +6,7 @@
 import test from './test'
 import user from './user'
 import book from './book'
+import comment from './comment'
 
 const Router = require('koa-router')
 const router = new Router()
@@ -16,6 +17,7 @@ export default (app) => {
 
   router.use('/user', user.routes()) // 用户接口
   router.use('/book', book.routes()) // 图书接口
+  router.use('/comment', comment.routes()) // 评论接口
 
   app.use(router.routes()) // app.use注册中间件，不写在server index里
 }
