@@ -159,7 +159,7 @@ export default {
     }
   },
   // onload生命周期返回当前页面不会执行
-  onLoad () {
+  onShow () {
     if (!this.user.nickName) {
       let userStorage = wx.getStorageSync('userInfo')
       this.$store.commit('SET_USER', userStorage)

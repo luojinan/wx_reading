@@ -34,13 +34,16 @@ function requestServer (url, method, data) {
       if (parseInt(res.data.code) === 200) {
         resolve(res.data)
       }
+      if(res.data.status==50014){
+        wx.showToast({
+          title: '登录已过期，请重新登录',
+          icon: 'none'
+        })
+          
+      }
       reject(res.data)
     }).catch(err => console.log(err))
   })
 }
 
 export default request
-
-
-
-

@@ -37,7 +37,7 @@ class   CommentController {
   }
 
   /**
-   * 获取图书详情，并更新浏览次数
+   * 根据图书ID获取 该图书的所有评论列表
    * @param {*} ctx
    * @param {*} next
    */
@@ -46,7 +46,27 @@ class   CommentController {
       bookId
     } = ctx.params
     try {
-      const data = await CommentModel.find({bookid: bookId}).populate({ path: 'user' })
+      const data = await CommentModel.find({book: bookId}).populate({ path: 'user' })
+      ctx.body = {
+        code: 200,
+        msg: '',
+        data
+      }
+    } catch (err) {
+      ctx.throw(err)
+    }
+  }
+  /**
+   * 根据用户ID获取该用户的所有评论列表
+   * @param {*} ctx
+   * @param {*} next
+   */
+  async getcommentListByUser(ctx) {
+    const {
+      userid
+    } = ctx.params
+    try {
+      const data = await CommentModel.find({user: userid}).populate({ path: 'book' })
       ctx.body = {
         code: 200,
         msg: '',

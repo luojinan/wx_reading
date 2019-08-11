@@ -5,7 +5,10 @@ const verify = Promise.promisify(jwt.verify)
 async function check (ctx, next) {
   let url = ctx.request.url
   // 登录 不用检查
-  if (url == '/user/saveUser') await next()
+  if (url == '/user/saveUser'||url == '/book/getTopBook/'||url == '/book/getBook') {
+    console.log(url);
+    await next()
+  }
   else {
     console.log(url)
     // 规定token写在header 的 'autohrization' 

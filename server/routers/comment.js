@@ -14,4 +14,6 @@ router.get('/', (ctx, next) => {
 
 router.post('/addComment', commentClass.addComment) // 写入微信用户，创建id
 router.get('/getcommentList/:bookId', commentClass.getcommentList) // 根据id获取图书详情数据
+router.get('/getcommentListByUser/:userid', commentClass.getcommentListByUser) // 根据id获取图书详情数据
+
 export default router

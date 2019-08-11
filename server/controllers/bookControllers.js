@@ -85,7 +85,7 @@ class BookController {
   }
 
   /**
-   * 获取我添加的所有图书
+   * 获取所有用户的所有图书
    * @param {*} ctx
    * @param {*} next
    */
@@ -137,6 +137,25 @@ class BookController {
       ctx.body = {
         code: 200,
         msg: '首页排名前9',
+        data
+      }
+    } catch (err) {
+      ctx.throw(err)
+    }
+  }
+   /**
+   * 根据用户ID添加的所有图书
+   * @param {*} ctx
+   * @param {*} next
+   */
+  async getBookByUser(ctx) {
+    const {
+      userid
+    } = ctx.params
+    try {
+      let data = await BookModel.find({user: userid})
+      ctx.body = {
+        code: 200,
         data
       }
     } catch (err) {

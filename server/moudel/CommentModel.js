@@ -12,7 +12,10 @@ const CommentSchema = mongoose.Schema({
     ref: 'user'
   },
   comment: String,
-  bookid: String,
+  book: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'book'
+  },
   phoneSys: String,
   location: String
 })

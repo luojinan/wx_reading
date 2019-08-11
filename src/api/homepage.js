@@ -19,9 +19,21 @@ export function getBookById(bookId) {
     method: 'GET'
   })
 }
+export function getBookByUser(userid) {
+  return request({
+    url: `book/getBookByUser/${userid}`,
+    method: 'GET'
+  })
+}
 export function getCommentList(bookId) {
   return request({
     url: `comment/getcommentList/${bookId}`,
+    method: 'GET'
+  })
+}
+export function getcommentListByUser(userid) {
+  return request({
+    url: `comment/getcommentListByUser/${userid}`,
     method: 'GET'
   })
 }
@@ -35,7 +47,9 @@ export function addComment(data) {
 export default {
   getBook,
   getBookById,
+  getBookByUser,
   getCommentList,
+  getcommentListByUser,
   addComment,
   getTopBook // 获取首页轮播图--浏览量前9的图书
 }
